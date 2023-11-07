@@ -9,13 +9,19 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "i18n-help.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "i18n-help.i18nsearch",
+        "title": "I18n Search"
       }
     ],
     "viewsContainers": {

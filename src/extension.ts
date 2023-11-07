@@ -1,31 +1,47 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { I18nDataProvider } from './I18nDataProvider';
+import I18nHoverProvider from './i18nHoverProvider';
+import { getLocaleFiles } from './utilities/localeFilesParse';
+import MessageController from './utilities/messageController';
+import { LocaleMap, Languages } from './types';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const i18nSubPath = {
+	[Languages['en-US']]: 'src/server/public/locales/en-US/translation.json',
+	[Languages['zh-TW']]: 'src/server/public/locales/zh-TW/translation.json',
+	[Languages['zh-CN']]: 'src/server/public/locales/zh-CN/translation.json',
+};
+
+const supportedLanguages = ['typescript', 'javascript', "javascriptreact", "typescriptreact", "json"];
+
 export function activate(context: vscode.ExtensionContext) {
+	console.log('Extension "i18n-help" is now active!');
+
+	const MessageHelper = new MessageController();
 	const rootPath = (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0) ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
-	console.log('rootPath', rootPath);
-	vscode.window.registerTreeDataProvider(
-		'i18n-data',
-		new I18nDataProvider(rootPath),
+
+	const editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return;
+	}
+
+	let enLocaleMap: LocaleMap;
+	let twLocaleMap: LocaleMap;
+	let cnLocaleMap: LocaleMap;
+
+	if (rootPath) {
+		enLocaleMap = getLocaleFiles({ rootPath, subPath: i18nSubPath['en-US'] });
+		twLocaleMap = getLocaleFiles({ rootPath, subPath: i18nSubPath['zh-TW'] });
+		cnLocaleMap = getLocaleFiles({ rootPath, subPath: i18nSubPath['zh-CN'] });
+		MessageHelper.showInformationMessage('load locale file!');
+	} else {
+		MessageHelper.showErrorMessage('Please provide a rootPath!');
+		return;
+	}
+
+	const searchHover = vscode.languages.registerHoverProvider(
+		supportedLanguages,
+		new I18nHoverProvider(editor, enLocaleMap, twLocaleMap, cnLocaleMap),
 	);
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "i18n-help" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('i18n-help.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello! this is i18n-help!');
-	});
-
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(searchHover);
 }
 
 // This method is called when your extension is deactivated
