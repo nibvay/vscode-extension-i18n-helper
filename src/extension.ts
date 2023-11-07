@@ -18,11 +18,6 @@ export function activate(context: vscode.ExtensionContext) {
 	const MessageHelper = new MessageController();
 	const rootPath = (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0) ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
 
-	const editor = vscode.window.activeTextEditor;
-	if (!editor) {
-		return;
-	}
-
 	let enLocaleMap: LocaleMap;
 	let twLocaleMap: LocaleMap;
 	let cnLocaleMap: LocaleMap;
@@ -39,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const searchHover = vscode.languages.registerHoverProvider(
 		supportedLanguages,
-		new I18nHoverProvider(editor, enLocaleMap, twLocaleMap, cnLocaleMap),
+		new I18nHoverProvider(enLocaleMap, twLocaleMap, cnLocaleMap),
 	);
 	context.subscriptions.push(searchHover);
 }
