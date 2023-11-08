@@ -22,6 +22,8 @@ class I18nHoverProvider implements vscode.HoverProvider {
 
     if (selection && !selection.isEmpty) {
       const selectionRange = new vscode.Range(selection.start.line, selection.start.character, selection.end.line, selection.end.character);
+
+      // with t func example: t('home-address')
       const withTFuncRange = new vscode.Range(selection.start.line, selection.start.character - 3, selection.end.line, selection.end.character + 2);
       const highlightedWithTFunc = editor.document.getText(withTFuncRange);
 
