@@ -2,30 +2,27 @@ import * as vscode from 'vscode';
 import I18nHoverProvider from './i18nHoverProvider';
 import { getLocaleFiles } from './utilities/localeFilesParse';
 import MessageController from './utilities/messageController';
-import { LocaleMap, Languages } from './types';
+import { LocaleMap } from './types';
 
-const i18nSubPath = {
-	[Languages['en-US']]: 'src/server/public/locales/en-US/translation.json',
-	[Languages['zh-TW']]: 'src/server/public/locales/zh-TW/translation.json',
-	[Languages['zh-CN']]: 'src/server/public/locales/zh-CN/translation.json',
-};
-
-const supportedLanguages = ['typescript', 'javascript', "javascriptreact", "typescriptreact", "json"];
+const supportedLanguages = ['typescript', 'javascript', "javascriptreact", "typescriptreact"];
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Extension "i18n-help" is now active!');
+	// console.log('Extension "i18n-helper" is now active!');
 
 	const MessageHelper = new MessageController();
 	const rootPath = (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0) ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
+	const enSubPath = vscode.workspace.getConfiguration().get('i18nHelper.englishLocalesSubPath') as string;
+	const twSubPath = vscode.workspace.getConfiguration().get('i18nHelper.traditionalChineseLocalesSubPath') as string;
+	const cnSubPath = vscode.workspace.getConfiguration().get('i18nHelper.simplifiedChineseLocalesSubPath') as string;
 
 	let enLocaleMap: LocaleMap;
 	let twLocaleMap: LocaleMap;
 	let cnLocaleMap: LocaleMap;
 
 	if (rootPath) {
-		enLocaleMap = getLocaleFiles({ rootPath, subPath: i18nSubPath['en-US'] });
-		twLocaleMap = getLocaleFiles({ rootPath, subPath: i18nSubPath['zh-TW'] });
-		cnLocaleMap = getLocaleFiles({ rootPath, subPath: i18nSubPath['zh-CN'] });
+		enLocaleMap = getLocaleFiles({ rootPath, subPath: enSubPath });
+		twLocaleMap = getLocaleFiles({ rootPath, subPath: twSubPath });
+		cnLocaleMap = getLocaleFiles({ rootPath, subPath: cnSubPath });
 		MessageHelper.showInformationMessage('load locale file!');
 	} else {
 		MessageHelper.showErrorMessage('Please provide a rootPath!');

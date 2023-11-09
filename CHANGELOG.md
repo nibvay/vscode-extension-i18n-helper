@@ -1,9 +1,5 @@
 # Change Log
 
-All notable changes to the "i18n-help" extension will be documented in this file.
+## [1.0.0]
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+- release a i18n-helper vscode extension

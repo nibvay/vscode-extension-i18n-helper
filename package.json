@@ -1,8 +1,12 @@
 {
-  "name": "i18n-help",
-  "displayName": "i18n-help",
+  "name": "i18n-helper",
+  "displayName": "i18n-helper",
   "description": "",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nibvay/vscode-extension-i18n-helper"
+  },
   "engines": {
     "vscode": "^1.84.0"
   },
@@ -14,16 +18,26 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "i18n-help.helloWorld",
-        "title": "Hello World"
-      },
-      {
-        "command": "i18n-help.i18nsearch",
-        "title": "I18n Search"
+    "configuration": {
+      "title": "i18n-helper",
+      "properties": {
+        "i18nHelper.englishLocalesSubPath": {
+          "order": 1,
+          "type": "string",
+          "description": "Please provide the en-US locales JSON file in the project."
+        },
+        "i18nHelper.traditionalChineseLocalesSubPath": {
+          "order": 2,
+          "type": "string",
+          "description": "Please provide the zn-TW locales JSON file in the project."
+        },
+        "i18nHelper.simplifiedChineseLocalesSubPath": {
+          "order": 3,
+          "type": "string",
+          "description": "Please provide the zh-CN locales JSON file in the project."
+        }
       }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

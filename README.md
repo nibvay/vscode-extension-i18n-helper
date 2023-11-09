@@ -1,4 +1,4 @@
-# i18n-help README
+# i18n-helper README
 
 
 ## Features
@@ -7,7 +7,7 @@ This extension can help you view i18n translation when hover i18n key.
 
 ## Requirements
 
-## Extension Settings
+Set locales path.
 
 ## Known Issues
 
@@ -15,11 +15,6 @@ This extension can help you view i18n translation when hover i18n key.
 
 ## Todo list
   - [] support i18n with arguments. 
-
-## Release Notes
-### 1.0.0
-
-Initial release of ...
 
 ---
 
