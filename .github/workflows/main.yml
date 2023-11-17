@@ -16,4 +16,13 @@ jobs:
       - name: Install package
         run: npm install
       - name: Run package check
-        run: npm audit --audit-level=critical
+        run: | 
+          npx better-npm-audit audit --level critical
+          audit_result=$?
+          if [ $audit_result -ne 0 ]; then
+            echo "[Failed] Audit found critical issues."
+            exit 1
+          else
+            echo "[Pass] Not found critical issues."
+          fi
+
