@@ -14,7 +14,7 @@ $ vsce package # <i18n-helper-version>.vsix is generated
 ## Requirements
 Need to set locales file path in vscode settings. Here is steps:
 1. Settings > Extensions > i18n-helper
-2. 
+2. Add locales path
 
 ---
 
