@@ -1,6 +1,8 @@
 # i18n-helper
 ## Features
 This extension can help you view i18n translation when hover i18n key. 
+![image](./image.png)
+
 
 ## How to try this extension?
 1. Package
